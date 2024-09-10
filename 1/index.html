@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 180 Fall 2024 - Project 1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .section {
+            margin: 20px 0;
+        }
+        .images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .image-item {
+            flex: 1 1 45%;
+            box-sizing: border-box;
+            max-width: 45%;
+        }
+        .image-caption {
+            text-align: center;
+            margin-top: 5px;
+        }
+        img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CS 180 Fall 2024</h1>
+    <h2>Project 1 by Lawrence Shieh</h2>
+
+    <div class="section">
+        <h3>Overview</h3>
+        <p>I explored the usage of image pyramid for image alignement in this project to create RGB values from seperated channel values.
+            I first use skio to pre-process the given image, which contains 3 channel values. I split
+            the imput image into 3 equal heights and then crop them by 8% from each side
+            of the boundary. With the 3 channel pixels, I then min-max normalized each of them to account
+            for cases were exposure on the three channels are different. Then I started trying to align
+            the pixels directly using for loop across some (dx, dy) (in my case I use -16 to 16). 
+            Do note that I used the Normalized Cross-Correlation (NCC) value to evaluate on whether the offset is good.
+            In contrast to Euclidean Distance, I found that NCC performs better when exposure difference between the channels are strong.
+            This worked for small jpeg images.
+            However, for the bigger tif inputs, I soon realize that I have to use image pyramid. 
+            To solve the issue, I recursivly called the align function. The function will return starting from image that is 
+            scaled down to no more than 256 pixels (base case). Note that this will be our biggest movement 
+            and as the recursion returns to previous layers, the alignment movement will be more and more
+            fine grined (detailed). <br>
+            I run into some issues in parameter tuning. All the files but emir.jpg resulted rather
+            neat. I took a closer look at emir and reazlied that the green_blue alignment is perfect
+            yet the red_blue alignment is off by a huge scale (See end of document). When I try to fix emir, other images
+            started to act weird which made me realize emir may have its own unique issue. Upon
+            inspecting the input data, I believe that the error may appear from the extreme difference
+            in exposure among the 3 channels. However, all other images displayed fine so I believe
+            emir is its own edge case and thus the algorithm does work in general for large tif images.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Official Results</h3>
+        <div class="images">
+            <div class="image-item">
+                <img src="media/cathedral.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [3, 12] green offset: [2, 5]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/church.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [-4, 58] green offset: [4, 52]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/emir.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [-493, 147] green offset: [24, 49]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/harvesters.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [13, 124] green offset: [16, 59]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/icon.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [23, 89] green offset: [17, 41]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/lady.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [11, 111] green offset: [9, 49]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/melons.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [13, 179] green offset: [10, 82]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/monastery.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [2, 3] green offset: [2, -3]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/onion_church.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [36, 108] green offset: [26, 51]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/sculpture.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [-27, 140] green offset: [-11, 33]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/self_portrait.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [37, 176] green offset: [29, 78]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/three_generations.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [11, 112] green offset: [14, 53]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/tobolsk.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [3, 6] green offset: [2, 3]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/train.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [32, 87] green offset: [5, 42]</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Personal Results</h3>
+        <div class="images">
+            <div class="image-item">
+                <img src="media/personal1.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [1, -4] green offset: [1, -3]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/personal2.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [1, 7] green offset: [2, 2]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/personal3.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [-3, 9] green offset: [-1, 5]</div>
+            </div>
+        </div>
+    </div>
+    <div class="section"></div>
+        <h3>Emir Issue Detailed Display</h3>
+        <div class="images">
+            <div class="image-item">
+                <img src="media/rb.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset to blue: [1, -4]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/gb.jpg" alt="Official Result 1">
+                <div class="image-caption">green offset to blue: [2, 2]</div>
+            </div>
+            <div class="image-item">
+                <img src="media/rg.jpg" alt="Official Result 1">
+                <div class="image-caption">red green overlap</div>
+            </div>
+            <div class="image-item">
+                <img src="media/main.jpg" alt="Official Result 1">
+                <div class="image-caption">red offset: [-493, 147] green offset: [24, 49]</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
