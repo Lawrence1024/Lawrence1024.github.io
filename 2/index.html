@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 180 Fall 2024 - Project 2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        figure {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        p {
+            text-align: justify;
+            margin: 10px 0;
+        }
+        .image-row {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            gap: 20px; 
+            margin-bottom: 20px; 
+        }
+    
+        .image-row figure {
+            flex: 1;
+            text-align: center;
+        }
+    
+        .image-row img {
+            max-width: 100%; 
+            height: auto;
+            border: 1px solid black;
+        }
+    
+        figure {
+            margin: 0; 
+        }
+    
+        figcaption {
+            font-style: italic;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CS 180 Fall 2024</h1>
+    <h2>Project 2 by Lawrence Shieh</h2>
+
+    <section>
+        <h3>Part 1.1: Finite Difference Operator</h3>
+        <p>
+            Include a brief description of gradient magnitude computation: <br>
+            To get the gradient of the image, we first have to realize we are taking convolution in 
+            two directions. The first direction Dx = [1, -1] while the second direction Dy = [[1], [-1]].
+            When we convolve the image with these kernel, we would get the following results. 
+            Then using the magnitude function (sum(square dx + square dy) then square root) we can find the gradient magnitude as shown.
+            Lastly, we will also threshold the magnitude image to reduce noises.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/1.1/original.png" alt="Image 1 for Part 1.1">
+                <figcaption>Original</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/1.1/dx_raw.png" alt="Image 2 for Part 1.1">
+                <figcaption>Dx</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/1.1/dy_raw.png" alt="Image 3 for Part 1.1">
+                <figcaption>Dy</figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/1.1/equation.png" alt="Image 2 for Part 1.1">
+                <figcaption>Equation From Lecture</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/1.1/gm_raw.png" alt="Image 2 for Part 1.1">
+                <figcaption>Magnitude</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/1.1/gm_raw_filter.png" alt="Image 3 for Part 1.1">
+                <figcaption>Threshold </figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <section>
+        <h3>Part 1.2: Derivative of Gaussian (DoG) Filter</h3>
+        <p>
+            Instead of directly applying our dirivative kernal, we now first low pass filter
+            our original image (blur) before we apply the dirivative kernal. 
+            <br>
+            What differences do you see? <br>
+            The results we get seems to reduce noise a lot better. The edge lines are more clear (thicker).
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/1.2/original.png" alt="Image 1 for Part 1.1">
+                <figcaption>Original</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/1.2/blur_image.png" alt="Image 2 for Part 1.1">
+                <figcaption>blur</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/1.2/dy_blur.png" alt="Image 3 for Part 1.1">
+                <figcaption>dx_blur</figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/1.2/dy_blur.png" alt="Image 3 for Part 1.1">
+                <figcaption>dy_blur</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/1.2/gm_blur.png" alt="Image 1 for Part 1.1">
+                <figcaption>Magnitude</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/1.2/gm_blur_filter.png" alt="Image 2 for Part 1.1">
+                <figcaption>Threshold</figcaption>
+            </figure>
+        </div>
+        <p>
+            Lastly, we first apply the gaussian to the kernal and convolve them. 
+            The result of this we will call it as DoG. 
+            Then we apply the convovled kernals to the original image. <br>
+            We now can verify that we get the same result as before. We can see the result
+            filtered image is identical to the previous one we see. This shows that convolution
+            is an associative operation.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/1.3/g.png" alt="Image 3 for Part 1.1">
+                <figcaption>Gaussian</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/1.3/y.png" alt="Image 1 for Part 1.1">
+                <figcaption>dy_filter</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/1.3/x.png" alt="Image 2 for Part 1.1">
+                <figcaption>dx_filter</figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/1.3/gm_gaussian.png" alt="Image 3 for Part 1.1">
+                <figcaption>Convolved</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/1.3/gm_gaussian_filter.png" alt="Image 1 for Part 1.1">
+                <figcaption>Filtered</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <section>
+        <h3>Part 2.1</h3>
+        <p>
+            In this section we will use the low pass filter to find the low frequencies.
+            By subtracting the low frequencies form the image, we will then have the high frequencies.
+            We will enhance the high frequency image and add it back to the original image to sharpen it.
+            There is a mathematical simplification for this process. Essentailly we can create one single mask
+            such that when we directly convolve with the image, the sharpening process as described will be performed.
+            I show both result of taking the long process and compared it to unsharp mask filter enhancement.
+            You can see that the results are essentailly the same.
+        </p>
+        
+        <figure style = "border: 1px solid black;"">
+            <img src="media/2_1/equation.png" alt="Image 3 for Part 1.1">
+            <figcaption>Unsharp Mask Filter</figcaption>
+        </figure>
+        <br>
+        <div class="image-row">
+            <figure>
+                <img src="media/2_1/taj.png" alt="Image 3 for Part 1.1">
+                <figcaption>Original</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_1/taj_blur_image.png" alt="Image 1 for Part 1.1">
+                <figcaption>Low Frequency</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_1/taj_high_freq.png" alt="Image 1 for Part 1.1">
+                <figcaption>High Frequency</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_1/taj_sharpened.png" alt="Image 1 for Part 1.1">
+                <figcaption>Sharpened Result</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_1/taj_direct_sharp_img.png" alt="Image 1 for Part 1.1">
+                <figcaption>Unsharp Mask Filter Result</figcaption>
+            </figure>
+        </div>
+        <p>
+            Now, to make this more interesting, I would first intentionally blur an image. 
+            From that image, I would then run it through the enhancement process to see if we can 
+            get back something that looks as sharp as the original. The results show that the sharpened image
+            actually turned out to be as sharp as the original non-blured image!
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/2_1/personal1.png" alt="Image 3 for Part 1.1">
+                <figcaption>Original</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_1/personal1_initial_blur.png" alt="Image 3 for Part 1.1">
+                <figcaption>Initial Blur</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_1/personal1_blur_image.png" alt="Image 1 for Part 1.1">
+                <figcaption>Low Frequency</figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/2_1/personal1_high_freq.png" alt="Image 1 for Part 1.1">
+                <figcaption>High Frequency</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_1/personal1_sharpened.png" alt="Image 1 for Part 1.1">
+                <figcaption>Sharpened Result</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_1/personal1_direct_sharp_img.png" alt="Image 1 for Part 1.1">
+                <figcaption>Unsharp Mask Filter Result</figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/2_1/personal2.png" alt="Image 3 for Part 1.1">
+                <figcaption>Original</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_1/personal2_initial_blur.png" alt="Image 3 for Part 1.1">
+                <figcaption>Initial Blur</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_1/personal2_blur_image.png" alt="Image 1 for Part 1.1">
+                <figcaption>Low Frequency</figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/2_1/personal2_high_freq.png" alt="Image 1 for Part 1.1">
+                <figcaption>High Frequency</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_1/personal2_sharpened.png" alt="Image 1 for Part 1.1">
+                <figcaption>Sharpened Result</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_1/personal2_direct_sharp_img.png" alt="Image 1 for Part 1.1">
+                <figcaption>Unsharp Mask Filter Result</figcaption>
+            </figure>
+        </div>
+
+    </section>
+
+    <section>
+        <h3>Part 2.2: Hybrid Images</h3>
+        <p>
+            For this section we will create hybird images which when look from far and close will show different 
+            results. 
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/2_2/0/original_1.png" alt="Image 1 for Part 1.1">
+                <figcaption>Original 1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/0/img1_filtered.png" alt="Image 1 for Part 1.1">
+                <figcaption>Low Freq 1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/0/original_2.png" alt="Image 1 for Part 1.1">
+                <figcaption>Original 2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/0/im2_filtered.png" alt="Image 1 for Part 1.1">
+                <figcaption>High Freq 2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/0/hybrid.png" alt="Image 1 for Part 1.1">
+                <figcaption>Blended</figcaption>
+            </figure>
+        </div>
+        <p>
+            Let's look at the Fourreier analysis on one of these sets of pictures
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/2_2/2/original_1.png" alt="Image 1 for Part 1.1">
+                <figcaption>Original 1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/2/img1_filtered.png" alt="Image 1 for Part 1.1">
+                <figcaption>Low Freq 1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/2/original_2.png" alt="Image 1 for Part 1.1">
+                <figcaption>Original 2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/2/im2_filtered.png" alt="Image 1 for Part 1.1">
+                <figcaption>High Freq 2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/2/hybrid.png" alt="Image 1 for Part 1.1">
+                <figcaption>Blended</figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/2_2/2/img1_freq.png" alt="Image 1 for Part 1.1">
+                <figcaption>Original 1 Fourier</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/2/img1_freq_filtered.png" alt="Image 1 for Part 1.1">
+                <figcaption>Low Freq 1 Fourier</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/2/img2_freq.png" alt="Image 1 for Part 1.1">
+                <figcaption>Original 2 Fourier</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/2/img2_freq_filtered.png" alt="Image 1 for Part 1.1">
+                <figcaption>High Freq 2 Fourier</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/2/hybrid_freq.png" alt="Image 1 for Part 1.1">
+                <figcaption>Blended Fourier</figcaption>
+            </figure>
+        </div>
+        <p>
+            This one didn't work out. I believe it is due to the fact that original 2 has strong backgroud lines. 
+            When taking the high frequency of it, it seems to dominate the lower frequency portion of image.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/2_2/1/original_1.png" alt="Image 1 for Part 1.1">
+                <figcaption>Original 1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/1/img1_filtered.png" alt="Image 1 for Part 1.1">
+                <figcaption>Low Freq 1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/1/original_2.png" alt="Image 1 for Part 1.1">
+                <figcaption>Original 2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/1/im2_filtered.png" alt="Image 1 for Part 1.1">
+                <figcaption>High Freq 2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/1/hybrid.png" alt="Image 1 for Part 1.1">
+                <figcaption>Blended</figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/2_2/3/original_1.png" alt="Image 1 for Part 1.1">
+                <figcaption>Original 1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/3/img1_filtered.png" alt="Image 1 for Part 1.1">
+                <figcaption>Low Freq 1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/3/original_2.png" alt="Image 1 for Part 1.1">
+                <figcaption>Original 2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/3/im2_filtered.png" alt="Image 1 for Part 1.1">
+                <figcaption>High Freq 2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2_2/3/hybrid.png" alt="Image 1 for Part 1.1">
+                <figcaption>Blended</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <section>
+        <h3>Part 2.3 and 2.4: Gaussian and Laplacian Stacks With Multiresolution Blending</h3>
+        <p>
+            In this part we will show the process of blending an orange and an apple using 
+            Gaussian and Laplacian stacks with the following procedure. <br>
+            1. Take an image and create a Gaussian stack by continuing convolve with Gaussian. <br>
+            2. Create Laplacian stack by taking the differences of the Gaussian stack. Append the last element of Gaussian stack onto the Laplacian stack.<br>
+            3. Take a mask and create a Gaussian stack for it. <br>
+            4. For each element in the Laplacian stack, multiply it with the mask. This will result in an array of masked Laplacians.<br>
+            5. Repeat steps 1 to 4 with another image and a mask that is the negative of the one of step 4. <br>
+            6. Take the two masked Laplacian stacks, add them element-wise to get a blended stack. <br>
+            7. Collapse the blended stack by summing all the element in the stack to get a blended image.
+        </p>
+        <div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/apple_orange/apple/filter_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/apple/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/orange/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/orange/filter_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/apple_orange/apple/filter_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/apple/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/orange/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/orange/filter_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/apple_orange/apple/filter_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/apple/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/orange/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/orange/filter_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/apple_orange/apple/filter_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/apple/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/orange/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/orange/filter_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/apple_orange/apple/filter_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/apple/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/orange/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/orange/filter_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/apple_orange/apple/gaussian_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/flatten1.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/final_blend.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/flatten2.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/apple_orange/orange/gaussian_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+        </div>
+        <p>
+            Besides the Orange Apple Example, I also played around with some of other images.
+        </p>
+        <div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/sunset_night/sunset/filter_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/sunset/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/night/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/night/filter_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/sunset_night/sunset/filter_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/sunset/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/night/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/night/filter_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/sunset_night/sunset/filter_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/sunset/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/night/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/night/filter_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/sunset_night/sunset/filter_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/sunset/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/night/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/night/filter_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/sunset_night/sunset/filter_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/sunset/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/night/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/night/filter_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/sunset_night/sunset/gaussian_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/flatten1.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/final_blend.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/flatten2.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/sunset_night/night/gaussian_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+        </div>
+        <div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/spring_summer/spring/filter_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/spring/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/summer/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/summer/filter_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/spring_summer/spring/filter_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/spring/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/summer/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/summer/filter_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/spring_summer/spring/filter_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/spring/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/summer/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/summer/filter_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/spring_summer/spring/filter_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/spring/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/summer/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/summer/filter_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/spring_summer/spring/filter_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/spring/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/summer/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/summer/filter_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/spring_summer/spring/gaussian_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/flatten1.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/final_blend.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/flatten2.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/spring_summer/summer/gaussian_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+        </div>
+        <div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/fall_winter/fall/filter_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/fall/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/winter/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/winter/filter_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/fall_winter/fall/filter_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/fall/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/winter/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/winter/filter_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/fall_winter/fall/filter_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/fall/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/winter/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/winter/filter_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/fall_winter/fall/filter_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/fall/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/winter/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/winter/filter_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/fall_winter/fall/filter_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/fall/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/winter/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/winter/filter_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_3/fall_winter/fall/gaussian_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/flatten1.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/final_blend.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/flatten2.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_3/fall_winter/winter/gaussian_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+        </div>
+
+        <h3>Irregular Shapes</h3>
+        <p>
+            Lastly, we have to perform the same blend with iregular shapes. I created the iregular masks 
+            through an online drawing tool and convert it to a binary mask in python. 
+        </p>
+        <div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_4/fall_winter/fall/filter_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/fall/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/winter/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/winter/filter_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_4/fall_winter/fall/filter_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/fall/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/winter/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/winter/filter_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_4/fall_winter/fall/filter_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/fall/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/winter/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/winter/filter_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_4/fall_winter/fall/filter_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/fall/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/winter/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/winter/filter_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_4/fall_winter/fall/filter_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/fall/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/winter/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/winter/filter_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_4/fall_winter/fall/gaussian_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/flatten1.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/final_blend.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/flatten2.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/fall_winter/winter/gaussian_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+        </div>
+        <div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_4/st_wt/st/filter_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/st/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/wt/laplacian_filtered_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/wt/filter_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_4/st_wt/st/filter_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/st/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/wt/laplacian_filtered_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/wt/filter_1.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_4/st_wt/st/filter_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/st/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/wt/laplacian_filtered_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/wt/filter_2.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_4/st_wt/st/filter_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/st/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/wt/laplacian_filtered_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/wt/filter_3.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_4/st_wt/st/filter_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/st/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/wt/laplacian_filtered_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/wt/filter_4.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+            <div class="image-row">
+                <figure>
+                    <img src="media/2_4/st_wt/st/gaussian_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/flatten1.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/final_blend.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/flatten2.jpg" alt="Image 1 for Part 1.1">
+                </figure>
+                <figure>
+                    <img src="media/2_4/st_wt/wt/gaussian_0.png" alt="Image 1 for Part 1.1">
+                </figure>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
