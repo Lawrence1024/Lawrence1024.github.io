@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 180 Fall 2024 - Project 2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        figure {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        p {
+            text-align: justify;
+            margin: 10px 0;
+        }
+        .image-row {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            gap: 20px; 
+            margin-bottom: 20px; 
+        }
+    
+        .image-row figure {
+            flex: 1;
+            text-align: center;
+        }
+    
+        .image-row img {
+            max-width: 100%; 
+            height: auto;
+            border: 1px solid black;
+        }
+    
+        figure {
+            margin: 0; 
+        }
+    
+        figcaption {
+            font-style: italic;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CS 180 Fall 2024</h1>
+    <h2>Project 3 by Lawrence Shieh</h2>
+
+    <section>
+        <h3>Part 1. Defining Correspondences</h3>
+        <p>
+            Using the labeling tool provided in the project spec (https://cal-cs180.github.io/fa23/hw/proj3/tool.html), 
+            I created corresponding paris of points on the two images I am trying to merge.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/delaunay_im1_blank.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Delaunay 1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/delaunay_im1_overlay.jpg" alt="Image 2 for Part 1.1">
+                <figcaption>Delaunay 1 on image</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/delaunay_im2_blank.jpg" alt="Image 3 for Part 1.1">
+                <figcaption>Delaunay 2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/delaunay_im2_overlay.jpg" alt="Image 2 for Part 1.1">
+                <figcaption>Delaunay 2 on image</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/delaunay_average_blank.jpg" alt="Image 2 for Part 1.1">
+                <figcaption>Average Delaunay (Midpoints)</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <section>
+        <h3>Part 2. Computing the "Mid-way Face"</h3>
+        <p>
+            1. Find the Delaunay on the average points.<br>
+            2. Warp face 1 to the average points. <br>
+            3. Warp face 2 to the average points. <br>
+            4. Take the average of the two results. <br>
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/2/face1.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Original 1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/face2.jpg" alt="Image 2 for Part 1.1">
+                <figcaption>Original 2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/merged.jpg" alt="Image 3 for Part 1.1">
+                <figcaption>Mid-way Face</figcaption>
+            </figure>
+        </div>
+        <p>
+            For those who are curious, these are the intermediate steps.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/2/warp1.jpg" alt="Image 3 for Part 1.1">
+                <figcaption>Face 1 warp mid point</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/warp2.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Face 2 warp mid point</figcaption>
+            </figure>
+        </div>
+    </section>
+    <section>
+        <h3>Part 3. The Morph Sequence</h3>
+        <p>
+            1. Find the Delaunay on the average points.<br>
+            2. Define interpolated points given warp_frac.
+            2. Warp face 1 to the interpolated points. <br>
+            3. Warp face 2 to the interpolated points. <br>
+            4. Take the average of the two results according to dissolve_frac. <br>
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/3/morph.gif" alt="Image 1 for Part 1.1">
+                <figcaption>Morph GIF</figcaption>
+            </figure>
+        </div>
+    </section>
+    <section>
+        <h3>Part 4. The "Mean face" of a population</h3>
+        <p>
+            I am taking the mean face of many man from the FEI Face Database (https://fei.edu.br/~cet/facedatabase.html).<br>
+            1. Find the Delaunay on the average of all points.<br>
+            2. Warp all the faces to these average points.<br>
+            3. Take the average of all results. <br>
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/4/Average.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Average Face</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/1_ToAvg.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Face 1 to Average Points</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/4_ToAvg.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Face 2 to Average Points</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/7_ToAvg.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Face 3 to Average Points</figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/4/delaunay_face_overlay.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>My Cropped Face Delaunay</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/delaunay_average_overlay.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Average Male Face Delaunay</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/0_combine.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>My Face to Average Points</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/1_combine.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Average Face to My Points</figcaption>
+            </figure>
+        </div>
+        <p>
+            Do note that each of the man images I got corresponding points provided in the dataset.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/4/delaunay_im0_overlay.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Annotated Face</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/delaunay_im1_overlay.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Annotated Face</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/delaunay_im2_overlay.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Annotated Face</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/delaunay_im3_overlay.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Annotated Face</figcaption>
+            </figure>
+        </div>
+    </section>
+    <section>
+        <h3>Part 5. Caricatures: Extrapolating from the mean</h3>
+        <p>
+            Instead on interpolating, now we are exterpolating, creating geometry that isn't an average of the points. 
+            I set the alpha value to be -0.5 and 1.5 to see the effects on exterpolation.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/5/negative_combine.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>alpha = -0.5</figcaption>
+            </figure>
+            <figure>
+                <img src="media/5/positive_combine.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>alpha = 1.5</figcaption>
+            </figure>
+        </div>
+    </section>
+    <section>
+        <h3>Bells and Whistles</h3>
+        <p>
+            Morphing myself with average of another gender and race (In this case Caucasian Women).
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/6/face1.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Original Me</figcaption>
+            </figure>
+            <figure>
+                <img src="media/6/women.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Original Caucasian Women Average</figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/6/shape3.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Morph Only Shape</figcaption>
+            </figure>
+            <figure>
+                <img src="media/6/app3.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Morph Only Appearance</figcaption>
+            </figure>
+            <figure>
+                <img src="media/6/both3.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Morph Both</figcaption>
+            </figure>
+        </div>
+    </section>
+
+
+</body>
+</html>
