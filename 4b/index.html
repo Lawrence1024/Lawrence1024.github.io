@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 180 Fall 2024 - Project 4</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        figure {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        p {
+            text-align: justify;
+            margin: 10px 0;
+        }
+        .image-row {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            gap: 20px; 
+            margin-bottom: 20px; 
+        }
+    
+        .image-row figure {
+            flex: 1;
+            text-align: center;
+        }
+    
+        .image-row img {
+            max-width: 100%; 
+            height: auto;
+            border: 1px solid black;
+        }
+    
+        figure {
+            margin: 0; 
+        }
+    
+        figcaption {
+            font-style: italic;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CS 180 Fall 2024</h1>
+    <h2>Project 4 by Lawrence Shieh</h2>
+
+    <section>
+        <h1>Part A</h1>
+        <h3>Part 1. Shooting Pictures</h3>
+        <p>
+            Using my phone camera, I have taken some pictures on campus and at my appartnment
+            to be used in this project.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/square.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Image To Rectify 1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/square3.jpg" alt="Image 2 for Part 1.1">
+                <figcaption>Image To Rectify 2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/img12.jpg" alt="Image 3 for Part 1.1">
+                <figcaption>Blend Pair 1-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/img11.jpg" alt="Image 3 for Part 1.1">
+                <figcaption>Blend Pair 1-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/img12.jpg" alt="Image 2 for Part 1.1">
+                <figcaption>Blend Pair 2-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/img11.jpg" alt="Image 2 for Part 1.1">
+                <figcaption>Blend Pair 2-2</figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/2/img21.jpg" alt="Image 2 for Part 1.1">
+                <figcaption>Blend Pair 2-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/img22.jpg" alt="Image 2 for Part 1.1">
+                <figcaption>Blend Pair 2-2</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <section>
+        <h3>Part 2. Recover Homographies"</h3>
+        <p>
+            The goal here is to find the homography matrix H. Since there are 
+            8 unkown entries in the matrix, we need at least 4 corresponding pairs of points 
+            to find the matrix. Note that the scale factor "i" here can be set to 1
+            so in reality there is only 8 unkonwns shown in the follwing matrix.
+            Also note that we are using OSL if we provide more than 4 points. 
+            
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/equation1.png" alt="Image 1 for Part 1.1">
+                <figcaption>p' = Hp from lecture slide</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/equation2.png" alt="Image 1 for Part 1.1">
+                <figcaption>OSL from lecture slide</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/img11_output.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Warped Image 1-1 To 1-2</figcaption>
+            </figure>
+        </div>
+    </section>
+    <section>
+        <h3>Part 3. Rectify Images</h3>
+        <p>
+            1. Take picture of image that contains a rectangle somewhere. <br>
+            2. Define the coordinates on the 4 corner of the rectangle. <br>
+            3. Self define a set of corresponding coordinates to those 4 corners. <br>
+            4. Use part 2 to find the homography matrix H. <br>
+            5. Apply the homography matrix to the original image we took.<br>
+            For image 1 I target the green looking rectangle above the light switch.
+            For image 2 I target the poster itself.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/square.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Image 1 Original</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/square_final.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Image 1 Rectified</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/square3.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Image 2 Original</figcaption>
+            </figure>
+            <figure>
+                <img src="media/1/square3_final.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Image 2 Rectified</figcaption>
+            </figure>
+        </div>
+    </section>
+    <section>
+        <h3>Part 4. Belnd Images</h3>
+        <p>
+            1. Define corresponding points to two images. <br>
+            2. Warp one of the images onto the other like part 3. <br>
+            3. Using the given offsets (if not already shown in the output) to align image. <br>
+            4. Blend them together using concepts from <a href="../2/index.html">project 2</a>. <br>
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/2/img11.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Original 1-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/img12.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Original 1-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/final_blend1.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Final</figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/2/img21.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Original 2-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/img22.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Original 2-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/final_blend2.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Final</figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/2/img31.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Original 3-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/img32.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Original 3-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/final_blend3.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Final</figcaption>
+            </figure>
+        </div>
+    </section>
+
+
+    <section>
+        <h1>Part B</h1>
+        <p>I went on a trip to Lake Tahoe in Califonia and found a pretty picture spot.
+            Although the images all look similar, they are all unique if you look closely.
+        </p>
+        <h3>Step 1: Apply Harris Corners</h3>
+        <p>
+            I applied the harris corners algorithm to extract a bunch of harris corner points.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/4/img41_harris.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Harris 1-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img42_harris.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Harris 1-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img71_harris.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Harris 2-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img72_harris.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Harris 2-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img81_harris.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Harris 3-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img82_harris.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Harris 3-1</figcaption>
+            </figure>
+        </div>
+    </section>
+    <section>
+        <h3>Step 2: Apply Adaptive Non-Maximal Suppression</h3>
+        <p>
+            I applied the Adaptive Non-Maximal Suppression algorithm to reduce the amount of Harris points.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/4/img41_harris_anms.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>anms 1-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img42_harris_anms.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>anms 1-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img71_harris_anms.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>anms 2-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img72_harris_anms.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>anms 2-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img81_harris_anms.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>anms 3-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img82_harris_anms.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>anms 3-1</figcaption>
+            </figure>
+        </div>
+    </section>
+    <section>
+        <h3>Step 3: Apply Feature Descriptor Extraction & Feature Matching</h3>
+        <p>
+            For each harris points, create a 40 by 40 grid around.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/4/img41_boxes.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>boxes 1-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img42_boxes.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>boxes 1-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img71_boxes.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>boxes 2-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img72_boxes.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>boxes 2-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img81_boxes.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>boxes 3-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img82_boxes.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>boxes 3-1</figcaption>
+            </figure>
+        </div>
+        <p>
+            Sub-sample each 40 by 40 box down to 8 by 8. Normalize the descriptor. Each of these image here 
+            contains many small 8 by 8 normalized image. Note that some of these values are "negative" 
+            so it may not make much visual sense.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/4/img41_all_boxes.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>features 1-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img42_all_boxes.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>features 1-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img71_all_boxes.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>features 2-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img72_all_boxes.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>features 2-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img81_all_boxes.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>features 3-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img82_all_boxes.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>features 3-1</figcaption>
+            </figure>
+        </div>
+        <p>
+            Implement Feature Matching using Lowe thresholding. If you look closely the corresponding
+            images have corresponding numbers to each of the matching points.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/4/img41_dotted.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>numbered 1-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img42_dotted.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>numbered 1-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img71_dotted.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>numbered 2-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img72_dotted.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>numbered 2-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img81_dotted.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>numbered 3-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/4/img82_dotted.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>numbered 3-1</figcaption>
+            </figure>
+        </div>
+    </section>
+    <h3>Step 4: Apply RANSAC</h3>
+        <p>
+            I applied the ransac algorithm to find the best homography function between two sets of 
+            corresponding points. I blended the image using the homography and the results are as shown.<br>
+            1. Select four feature pairs (at random) <br>
+            2. Compute homography H (exact) <br>
+            3. Compute inliers where  dist(pi’, H pi ) < ε <br>
+            4. Keep largest set of inliers <br>
+            5. Re-compute least-squares H estimate on all of the inliers
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/5/img41.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Original 1-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/5/img42.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Original 1-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/5/img40.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Blended 1</figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/5/img72.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Original 2-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/5/img71.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Original 2-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/5/img70.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Blended 2</figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/5/img81.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Original 3-1</figcaption>
+            </figure>
+            <figure>
+                <img src="media/5/img82.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Original 3-2</figcaption>
+            </figure>
+            <figure>
+                <img src="media/5/img80.jpg" alt="Image 1 for Part 1.1">
+                <figcaption>Blended 3</figcaption>
+            </figure>
+        </div>
+    </section>
+
+</body>
+</html>
