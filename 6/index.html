@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 180 Fall 2024 - Final Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        figure {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        p {
+            text-align: justify;
+            margin: 10px 0;
+        }
+        .image-row {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            gap: 20px; 
+            margin-bottom: 20px; 
+        }
+    
+        .image-row figure {
+            flex: 1;
+            text-align: center;
+        }
+    
+        .image-row img {
+            max-width: 100%; 
+            height: auto;
+            border: 1px solid black;
+        }
+    
+        figure {
+            margin: 0; 
+        }
+    
+        figcaption {
+            font-style: italic;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CS 180 Fall 2024</h1>
+    <h2>Final Project NeRF by Lawrence Shieh</h2>
+
+    <section>
+        <h1>Part 1: Fit a Neural Field to a 2D Image</h1>
+        <p> For the whole part 1 we have num_epochs=3000 and batch_size=10000. The architecture of the 
+            neural net follows the one given in the project spec.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/arch.jpg" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>       
+            
+        </div>
+        
+        <h3>Fox With Original Parameters</h3>
+        <p>{"num_layers": 3, "hidden_dim": 256, "num_frequencies": 10, "learning_rate": 1e-2}</p>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/1.1.png" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>       
+            
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/1.2.png" alt="Image 3 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/1.3.png" alt="Image 3 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>
+        </div>
+
+        <h3>Decrease Fox Hidden Dimension to 64</h3>
+        <p>
+            {"num_layers": 3, "hidden_dim": 64, "num_frequencies": 10, "learning_rate": 1e-2}<br>
+            We can see that the results perform significantly worse than the original parameters. This make sense 
+            since we decrease the amount of information contained in the layers by decreasing the hidden dimensions.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/2.1.png" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>       
+            
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/2.2.png" alt="Image 3 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/2.3.png" alt="Image 3 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>
+        </div>
+
+        <h3>Decrease Fox num_layers to 1</h3>
+        <p>
+            {"num_layers": 1, "hidden_dim": 256, "num_frequencies": 10, "learning_rate": 1e-2}<br>
+            We can see that this performs slightly worse than the original parameter. This make sense 
+            since we are having less layers for the net to learn. However, it isn't as bad
+            as decreasing the hidden dimensions. This make sense since decreasing num_layers just mean that the neural 
+            net couldn't learn as deep of a relationship between pixels. However, all the informations are still 
+            retained as the original. 
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/3.1.png" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>       
+            
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/3.2.png" alt="Image 3 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/3.3.png" alt="Image 3 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>
+        </div>
+
+        <h3>Custuom Image (Campanile)</h3>
+        <p>
+            {"num_layers": 3, "hidden_dim": 256, "num_frequencies": 10, "learning_rate": 1e-2}<br>
+            This Cusuom Image is larger than the fox image, which should theoritaically make it harder to reconstruct. 
+            Using the original parameters we can see that this reconstruction is indeed worse than the fox image.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/4.1.png" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>       
+            
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/4.2.png" alt="Image 3 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/1/4.3.png" alt="Image 3 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>
+        </div>
+        
+    </section>
+
+    <section>
+        <h3>Part 2: Fit a Neural Radiance Field from Multi-view Images</h3>
+        <p>
+            Each part implmentation is done by the spec setup. The equations and neural network are all 
+            provided in the project spec. I utilized equations such as these to complete the task. 
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/2/eq1.png" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/eq2.png" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/eq3.png" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/eq4.png" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/eq5.png" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>
+        </div>
+        <p>
+            The setup from 2.1 to 2.3 is done proof by the following image visuazlied with the given code.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/2/viz1.png" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>
+            <figure>
+                <img src="media/2/viz2.png" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>
+        </div>
+        <p>The NeRF is set up using the following archetechture.</p>
+        <div class="image-row">
+            <figure>
+                <img src="media/2/arch.png" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure>
+        </div>
+        <h3>Training Results</h3>
+        <p>
+            These are the training results.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/2/1-1.png" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure> 
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/2/1-2.png" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure> 
+        </div>
+
+        <h3>Validation Results</h3>
+        <p>
+            These are the validation results.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/2/2-1.png" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure> 
+        </div>
+        <div class="image-row">
+            <figure>
+                <img src="media/2/2-2.png" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure> 
+        </div>
+
+        <h3>Test Results</h3>
+        <p>
+            This is the gif test results. Note that the gif actaully doesn't loop, refresh the page to see the full image. 
+            If you have questions about the process please take a look 
+            at the submitted code.
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/2/nerf_test_results.gif" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure> 
+        </div>
+
+        <h3>Bells and wistle</h3>
+        <p>
+            Change background color to blue
+        </p>
+        <div class="image-row">
+            <figure>
+                <img src="media/2/nerf_test_results_blue.gif" alt="Image 1 for Part 1.1">
+                <figcaption></figcaption>
+            </figure> 
+        </div>
+        
+    </section>
+
+</body>
+</html>
